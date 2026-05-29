@@ -22,6 +22,6 @@
 |---|---|---|---|
 |In| `clk` | 1 bit | Écriture du registre sur front d'horloge montant |
 |In| `en` | 1 bit | Activation de l'entrée du registre |
+|In| `rst` | 1 bit | reset du registre |
 |In| `In` | 9 bits | Valeur d'entrée |
 |Out| `Out` | 9 bits | Valeur de sortie |
-
