@@ -4,14 +4,21 @@
 
 ## Partie 1 : Design et simulation
 
+On souhaite intégrer les instructions suivantes:
+
+- `mv RX,RY`: copie la valeur du registre RY dans le registre RX
+- `mvi RX,#D`: copie la valeur #D dans le registre RX
+- `add RX,RY`: additionne les valeurs des registres RX et RY et stock le résultat dans le registre RX
+- `sub RX,RY`: soustraie les valeurs des registres RX et RY et stock le résultat dans le registre RX
+
 ### Entités requises
 
 | Entité | Quantité | Statut |
 |---|---|---|
-| Registre synchrone | ×10 | ☐ |
-| Multiplexeur | ×1 | ☐ |
-| Additionneur / Soustracteur | ×1 | ☐ |
-| Unité de contrôle FSM | ×1 | ☐ |
+| Registre synchrone | ×10 | fait |
+| Multiplexeur | ×1 | fait |
+| Additionneur / Soustracteur | ×1 | fait |
+| Unité de contrôle FSM | ×1 | à faire |
 
 ### Registre synchrone (reg9.vhd)
 
