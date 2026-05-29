@@ -121,13 +121,66 @@ Architecture Structural of processor_top is
     signal AddSub_signal : STD_LOGIC;
     signal AddSub_result : STD_LOGIC_VECTOR(8 downto 0);
     signal G_data : STD_LOGIC_VECTOR(8 downto 0);
-    signal IR_data : STD_LOGIC_VECTOR(8 downto 0);
-    signal DIN_data : STD_LOGIC_VECTOR(8 downto 0); -- Lien entre le mux et le DIN
-    
+    signal IR_data : STD_LOGIC_VECTOR(8 downto 0);    
     signal R0_out, R1_out, R2_out, R3_out, R4_out, R5_out, R6_out, R7_out : STD_LOGIC;
     signal G_out, DIN_out : STD_LOGIC;
     signal IR_in, R0_in, R1_in, R2_in, R3_in, R4_in, R5_in, R6_in, R7_in : STD_LOGIC;
-    signal A_in, G_in : STD_LOGIC;d
+    signal A_in, G_in : STD_LOGIC;
 
+    begin
+    -- Unité de contrôle
+    U_UC :  uc port map (
+        rst => rst, clk => clk,
+        run => run, 
+        done => done,
 
+        IR => IR_data,
+        DIN_out => DIN_out,
+        IR_in => IR_in, 
+        AddSub => AddSub_signal,
+        G_in => G_in, A_in => A_in, G_out => G_out,
 
+        R0_out => R0_out, R1_out => R1_out, R2_out => R2_out, R3_out => R3_out,
+        R4_out => R4_out, R5_out => R5_out, R6_out => R6_out, R7_out => R7_out,
+        
+        R0_in => R0_in, R1_in => R1_in, R2_in => R2_in, R3_in => R3_in, 
+        R4_in => R4_in, R5_in => R5_in, R6_in => R6_in, R7_in => R7_in
+        
+        
+    );
+
+    -- Multiplexeur
+    U_MUX : multiplexer port map (
+        R0_out => R0_out, R1_out => R1_out, R2_out => R2_out, R3_out => R3_out,
+        R4_out => R4_out, R5_out => R5_out, R6_out => R6_out, R7_out => R7_out,
+        G_out => G_out, DIN_out => DIN_out,
+        R0 => R0_data, R1 => R1_data, R2 => R2_data, R3 => R3_data,
+        R4 => R4_data, R5 => R5_data, R6 => R6_data, R7 => R7_data,
+        G => G_data, DIN => DIN,
+        BUS_out => Bus_Wires
+    );
+
+    -- Addsub
+    U_ADDSUB : addsub port map (
+        x => A_data,
+        y => Bus_Wires,
+        AddSub => AddSub_signal,
+        result => AddSub_result
+    );
+
+    -- Registres
+    U_R0 : reg9 port map (clk => clk, en => R0_in, rst => rst, reg_in => Bus_Wires, reg_out => R0_data);
+    U_R1 : reg9 port map (clk => clk, en => R1_in, rst => rst, reg_in => Bus_Wires, reg_out => R1_data);
+    U_R2 : reg9 port map (clk => clk, en => R2_in, rst => rst, reg_in => Bus_Wires, reg_out => R2_data);
+    U_R3 : reg9 port map (clk => clk, en => R3_in, rst => rst, reg_in => Bus_Wires, reg_out => R3_data);
+    U_R4 : reg9 port map (clk => clk, en => R4_in, rst => rst, reg_in => Bus_Wires, reg_out => R4_data);
+    U_R5 : reg9 port map (clk => clk, en => R5_in, rst => rst, reg_in => Bus_Wires, reg_out => R5_data);
+    U_R6 : reg9 port map (clk => clk, en => R6_in, rst => rst, reg_in => Bus_Wires, reg_out => R6_data);
+    U_R7 : reg9 port map (clk => clk, en => R7_in, rst => rst, reg_in => Bus_Wires, reg_out => R7_data);
+
+    U_A : reg9 port map (clk => clk, en => A_in, rst => rst, reg_in => Bus_Wires, reg_out => A_data);
+    U_G : reg9 port map (clk => clk, en => G_in, rst => rst, reg_in => AddSub_result, reg_out => G_data);
+    U_IR : reg9 port map (clk => clk, en => IR_in, rst => rst, reg_in => DIN, reg_out => IR_data);
+    -- Sortie du bus
+    bus_output <= Bus_Wires;
+end architecture Structural;
