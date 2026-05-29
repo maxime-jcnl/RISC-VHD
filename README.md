@@ -18,7 +18,7 @@ On souhaite intégrer les instructions suivantes:
 | Registre synchrone | ×10 | fait |
 | Multiplexeur | ×1 | fait |
 | Additionneur / Soustracteur | ×1 | fait |
-| Unité de contrôle FSM | ×1 | à faire |
+| Unité de contrôle FSM | ×1 | fait |
 
 ### Registre synchrone (reg9.vhd)
 
